@@ -4,6 +4,7 @@ import { ChevronRight, CircleCheck, Edit2, Trash, Star } from "lucide-react";
 import { Ubuntu } from "next/font/google"
 import { useState } from "react";
 import { EditTask } from "../EditTask";
+import { AddTask } from "../AddTask";
 
 const ubuntu = Ubuntu({
     subsets: ["latin"],
@@ -13,10 +14,26 @@ const ubuntu = Ubuntu({
 export default function MainContent() {
 
     const [open, setOpen] = useState(false);
+    const [addo, setAddo] = useState(false);
+    const [form, setForm] = useState({
+        id: 0,
+        title: '',
+        description: '',
+        category: '',
+        status: 'pending',
+        tags: [],
+    })
 
     function toggleDrawer() {
         setOpen(prevOpen => !prevOpen);
     }
+
+    function toggleAdd() {
+        setAddo(prevOpen => !prevOpen);
+    }
+
+    console.log(addo);
+
     const [tasks, setTasks] = useState([
         {
             id: 1,
@@ -64,14 +81,36 @@ export default function MainContent() {
         },
         {
             id: 5,
-            title: "respond to feedback on design mocks",
-            description: "have to respond on some design mocks i made for the new product app",
+            title: "call a friend for a party",
+            description: "reminder to call a friend for the pending party",
+            category: "general",
+            status: "incompleted",
+            tags: [
+                "party", "friend", "relax"
+            ],
+            createdOn: "8/11/2024"
+        },
+        {
+            id: 6,
+            title: "take medicines",
+            description: "take medicines prescribed by doc",
             category: "important",
             status: "incompleted",
             tags: [
-                "work", "school", "internship", "design"
+                "health", "medicines"
             ],
-            createdOn: "28/08/2024"
+            createdOn: "2/02/2024"
+        },
+        {
+            id: 7,
+            title: "complete 4reps on 25kg armpress",
+            description: "complete the reps in the gym with 25kgs",
+            category: "general",
+            status: "incompleted",
+            tags: [
+                "health", "gym", "goal"
+            ],
+            createdOn: "12/06/2024"
         }
     ])
 
@@ -98,6 +137,11 @@ export default function MainContent() {
 
     return (
         <>
+            <div className="fixed bottom-0 mb-4 sm:ml-24 ml-4">
+                <button className="btn p-2 w-[20rem]" onClick={toggleAdd}>
+                    + Add a new task
+                </button>
+            </div>
             <div className="flex">
                 <hr
                     className="border-gray-200 mt-3 w-12"
@@ -112,7 +156,7 @@ export default function MainContent() {
                 tasks.map((x, i) => {
                     if (x.category === 'important') {
                         return <>
-                            <div className="rounded-lg mt-4">
+                            <div className="rounded-lg mt-4" key={x.id}>
                                 <div className={`flex justify-between rounded-lg transition-all ${x.status === 'completed' ? `bg-white/35` : `bg-white/55`}`}>
                                     <div className="flex p-2 space-x-2 hover:cursor-pointer" onClick={() => handleToggle(x.id)}>
                                         {x.status === 'completed' ? <CircleCheck className="w-4" fill="black" color="white" /> : <CircleCheck className="w-4" />}
@@ -166,9 +210,9 @@ export default function MainContent() {
                 <hr
                     className="border-gray-200 mt-3 w-12"
                 />
-                <p className={`ml-2 text-lg -mt-[0.1rem] ${ubuntu.className}`}> All Tasks </p>
+                <p className={`ml-2 text-lg -mt-[0.1rem] ${ubuntu.className}`}> General </p>
                 <hr
-                    className="border-gray-200 mt-3 w-[12rem] sm:w-[19.3rem] ml-3 sm:mr-0"
+                    className="border-gray-200 mt-3 w-full ml-3 sm:mr-0"
                 />
             </div>
 
@@ -224,6 +268,12 @@ export default function MainContent() {
             }
             <div className="invisible">
                 <EditTask isOpen={open} onClose={toggleDrawer} />
+                <AddTask
+                    isOpen={addo}
+                    onClose={toggleAdd}
+                    form={form}
+                    setForm={setForm}
+                />
             </div>
         </>
     )
