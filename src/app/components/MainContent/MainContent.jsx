@@ -15,24 +15,16 @@ export default function MainContent() {
 
     const [open, setOpen] = useState(false);
     const [addo, setAddo] = useState(false);
-    const [form, setForm] = useState({
-        id: 0,
-        title: '',
-        description: '',
-        category: '',
-        status: 'pending',
-        tags: [],
-    })
+    const [index, setIndex] = useState(0);
 
-    function toggleDrawer() {
+    function toggleUpdate(i) {
+        setIndex(i);
         setOpen(prevOpen => !prevOpen);
     }
 
     function toggleAdd() {
         setAddo(prevOpen => !prevOpen);
     }
-
-    console.log(addo);
 
     const [tasks, setTasks] = useState([
         {
@@ -101,17 +93,6 @@ export default function MainContent() {
             ],
             createdOn: "2/02/2024"
         },
-        {
-            id: 7,
-            title: "complete 4reps on 25kg armpress",
-            description: "complete the reps in the gym with 25kgs",
-            category: "general",
-            status: "incompleted",
-            tags: [
-                "health", "gym", "goal"
-            ],
-            createdOn: "12/06/2024"
-        }
     ])
 
     function handleToggle(i) {
@@ -170,11 +151,13 @@ export default function MainContent() {
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent className="w-44 bg-white/85 sm:mr-32">
                                                 <DropdownMenuGroup>
-                                                    <DropdownMenuItem className="hover:bg-slate-200">
+                                                    <DropdownMenuItem
+                                                        className="hover:bg-slate-200 hover:cursor-pointer"
+                                                        onClick={() => toggleUpdate(i)}
+                                                    >
                                                         <Edit2 className="w-3 mr-3" />
                                                         <span
                                                             className="text-xs font-bold"
-                                                            onClick={toggleDrawer}
                                                         > Edit task </span>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem className="hover:bg-slate-200">
@@ -267,12 +250,18 @@ export default function MainContent() {
                 })
             }
             <div className="invisible">
-                <EditTask isOpen={open} onClose={toggleDrawer} />
+                <EditTask
+                    isOpen={open}
+                    onClose={toggleUpdate}
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    index={index}
+                />
                 <AddTask
                     isOpen={addo}
                     onClose={toggleAdd}
-                    form={form}
-                    setForm={setForm}
+                    tasks={tasks}
+                    setTasks={setTasks}
                 />
             </div>
         </>
