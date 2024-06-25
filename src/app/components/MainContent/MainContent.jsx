@@ -15,6 +15,7 @@ export default function MainContent() {
 
     const [open, setOpen] = useState(false);
     const [addo, setAddo] = useState(false);
+    const [imp, setImp] = useState(false);
     const [index, setIndex] = useState(0);
 
     function toggleUpdate(i) {
@@ -114,11 +115,12 @@ export default function MainContent() {
                 category: x.category === "important" ? "general" : "important"
             } : x)
         )
+        setImp(prevImp => !prevImp);
     }
 
     return (
         <>
-            <div className="fixed bottom-0 mb-4 sm:ml-24 ml-4">
+            <div className="fixed bottom-0 mb-4 sm:ml-24 ml-4 z-10">
                 <button className="btn p-2 w-[20rem]" onClick={toggleAdd}>
                     + Add a new task
                 </button>
@@ -136,15 +138,20 @@ export default function MainContent() {
             {
                 tasks.map((x, i) => {
                     if (x.category === 'important') {
-                        return <>
+                        return <div key={x.id}>
                             <div className="rounded-lg mt-4" key={x.id}>
                                 <div className={`flex justify-between rounded-lg transition-all ${x.status === 'completed' ? `bg-white/35` : `bg-white/55`}`}>
                                     <div className="flex p-2 space-x-2 hover:cursor-pointer" onClick={() => handleToggle(x.id)}>
                                         {x.status === 'completed' ? <CircleCheck className="w-4" fill="black" color="white" /> : <CircleCheck className="w-4" />}
                                         <p className={`text-sm mt-[0.1rem] ${x.status === 'completed' ? `line-through` : ``}`}> {x.title} </p>
                                     </div>
-                                    <div className="flex items-center">
-                                        <Star className="w-4 mr-4" />
+                                    <div className="flex items-center" key={x.id}>
+                                        <Star
+                                            className="w-4 mr-4 hover:cursor-pointer"
+                                            fill="gold"
+                                            color="orange"
+                                            onClick={() => handleImportance(x.id)}
+                                        />
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <button className="w-8 mr-2 mt-[0.1rem] background-none"> <ChevronRight className="w-4" /> </button>
@@ -184,7 +191,7 @@ export default function MainContent() {
                                     </div>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     }
                 })
             }
@@ -202,7 +209,7 @@ export default function MainContent() {
             {
                 tasks.map((x, i) => {
                     if (x.category === 'general') {
-                        return <>
+                        return <div key={x.id}>
                             <div className="rounded-lg mt-4" key={x.id}>
                                 <div className={`flex justify-between rounded-lg transition-all ${x.status === 'completed' ? `bg-white/35` : `bg-white/55`}`}>
                                     <div className="flex p-2 space-x-2 hover:cursor-pointer" onClick={() => handleToggle(x.id)}>
@@ -210,7 +217,10 @@ export default function MainContent() {
                                         <p className={`text-sm mt-[0.1rem] ${x.status === 'completed' ? `line-through` : ``}`}> {x.title} </p>
                                     </div>
                                     <div className="flex items-center">
-                                        <Star className="w-4 mr-4" />
+                                        <Star
+                                            className="w-4 mr-4 hover:cursor-pointer"
+                                            onClick={() => handleImportance(x.id)}
+                                        />
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <button className="w-8 mr-2 mt-[0.1rem] background-none"> <ChevronRight className="w-4" /> </button>
@@ -245,7 +255,7 @@ export default function MainContent() {
                                     </div>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     }
                 })
             }

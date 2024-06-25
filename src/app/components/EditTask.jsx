@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { cn } from "@/lib/utils"
 import { useMediaQuery } from "@/hooks/use-media-query"
@@ -70,16 +70,27 @@ export function EditTask({ isOpen, onClose, tasks, setTasks, index }) {
 function ProfileForm({ tasks, index, setTasks, className, onClose }) {
     const [form, setForm] = useState({
         id: index,
-        title: tasks[index].title || '',
-        description: tasks[index].description || '',
-        category: tasks[index].category || '',
+        title: '',
+        description: '',
+        category: '',
         status: 'pending',
-        tags: tasks[index].tags || [],
+        tags: [],
     });
 
-    const [toggle, setToggle] = useState(tasks[index].category === 'important');
+    useEffect(() => {
+        if (tasks && tasks[index]) {
+            setForm({
+                id: index,
+                title: tasks[index].title || '',
+                description: tasks[index].description || '',
+                category: tasks[index].category || '',
+                status: 'pending',
+                tags: tasks[index].tags || [],
+            });
+        }
+    }, [tasks, index]);
 
-    function datachange(e) {
+    function dataChange(e) {
         const { name, value } = e.target;
         setForm(prevForm => ({
             ...prevForm,
@@ -87,23 +98,18 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
         }));
     }
 
-    function handleToggle(e) {
-        e.preventDefault();
-        const newCategory = !toggle ? 'important' : 'general';
-        setToggle(!toggle);
-        setForm(prevForm => ({
-            ...prevForm,
-            category: newCategory,
-        }));
-    }
+    console.log(index)
 
     function handleSubmit(e) {
         e.preventDefault();
         setTasks(prevTasks => {
             const newArr = [...prevTasks];
-            newArr[index] = { ...newArr[index], ...form };
+            newArr[form.id] = { ...newArr[form.id], ...form };
             return newArr;
         });
+    }
+
+    function closeModal() {
         onClose();
     }
 
@@ -115,7 +121,7 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
                     type="text"
                     id="title"
                     name="title"
-                    onChange={datachange}
+                    onChange={dataChange}
                     value={form.title}
                 />
             </div>
@@ -123,42 +129,25 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                     placeholder="Your description"
-                    onChange={datachange}
+                    onChange={dataChange}
                     name="description"
                     value={form.description}
                 />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="category">Category</Label>
-                <div className="flex space-x-4">
-                    <div
-                        className={`flex justify-center items-center space-x-2 p-1 rounded-md text-xs w-24 transition-all font-semibold hover:cursor-pointer ${toggle ? `bg-red-100 hover:bg-red-300` : 'bg-red-300'
-                            }`}
-                        onClick={handleToggle}
-                    >
-                        <svg height="8" width="8">
-                            <circle r="4" cx="4" cy="4" fill="red" />
-                        </svg>
-                        <button type="button">Important</button>
-                    </div>
-                    <div
-                        className={`flex justify-center items-center space-x-2 p-1 rounded-md text-xs w-24 transition-all font-semibold hover:cursor-pointer ${!toggle ? `bg-green-100 hover:bg-green-300` : 'bg-green-300'
-                            }`}
-                        onClick={handleToggle}
-                    >
-                        <svg height="8" width="8">
-                            <circle r="4" cx="4" cy="4" fill="green" />
-                        </svg>
-                        <button type="button">General</button>
-                    </div>
-                </div>
-            </div>
-            <div className="grid gap-2">
                 <Label htmlFor="tags">Tags</Label>
-                <Input id="tags" name="tags" onChange={datachange} value={form.tags} />
+                <Input id="tags" name="tags" onChange={dataChange} value={form.tags} />
             </div>
-            <Button className="bg-black text-white" type="submit">Save changes</Button>
-            <Button variant="outline" onClick={onClose} type="button">Cancel</Button>
+            <Button
+                className="bg-black text-white"
+                onClick={closeModal}
+                type="submit"
+            >Save changes</Button>
+            <Button
+                variant="outline"
+                onClick={closeModal}
+                type="button"
+            >Cancel</Button>
         </form>
     );
 }

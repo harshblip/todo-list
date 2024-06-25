@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { randomUUID } from "crypto"
 
 export function AddTask({ isOpen, onClose, tasks, setTasks }) {
     const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -68,7 +69,7 @@ export function AddTask({ isOpen, onClose, tasks, setTasks }) {
 
 function ProfileForm({ className, setTasks, tasks, onClose }) {
     const [form, setForm] = useState({
-        id: 0,
+        id: tasks.length + 1,
         title: '',
         description: '',
         category: 'important',
@@ -78,6 +79,7 @@ function ProfileForm({ className, setTasks, tasks, onClose }) {
 
     function dataPush(e) {
         const { name, value } = e.target;
+
         setForm(prevForm => ({
             ...prevForm,
             [name]: value
@@ -97,7 +99,15 @@ function ProfileForm({ className, setTasks, tasks, onClose }) {
     function handleSubmit(e) {
         e.preventDefault();
         // console.log(form)    
-        setTasks([...tasks, form])
+        if (form.title != '') {
+            setTasks([...tasks, form])
+        } else {
+            console.error("can't add a task without a title")
+        }
+    }
+    function closeModal(e) {
+        // e.preventDefault();
+        onClose();
     }
     return (
         <form className={cn("grid items-start gap-4", className)} onSubmit={handleSubmit}>
@@ -151,13 +161,15 @@ function ProfileForm({ className, setTasks, tasks, onClose }) {
             </div>
             <Button
                 className="bg-black text-white"
-                onClick={onClose}
+                onClick={closeModal}
+                type="submit"
             >
                 Save changes
             </Button>
             <Button
                 variant="outline"
-                onClick={onClose}
+                onClick={closeModal}
+                type="button"
             >
                 Cancel
             </Button>
