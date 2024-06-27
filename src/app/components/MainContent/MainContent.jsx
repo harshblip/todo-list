@@ -1,6 +1,6 @@
 "use client"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronRight, CircleCheck, Edit2, Trash, Star } from "lucide-react";
+import { ChevronRight, CircleCheck, Edit2, Trash, Star, Eye } from "lucide-react";
 import { Ubuntu } from "next/font/google"
 import { useState } from "react";
 import { EditTask } from "../EditTask";
@@ -226,7 +226,6 @@ export default function MainContent() {
                             <div className="rounded-lg mt-4" key={x.id}>
                                 <div
                                     className={`hover:p-[0.1rem] hover:cursor-pointer flex justify-between rounded-lg transition-all ${x.status === 'completed' ? `bg-white/35` : `bg-white/55`}`}
-                                    onClick={() => detailCard(x.id)}
                                 >
                                     <div className="flex p-2 space-x-2 hover:cursor-pointer" onClick={() => handleToggle(x.id)}>
                                         {x.status === 'completed' ? <CircleCheck className="w-4" fill="black" color="white" /> : <CircleCheck className="w-4" />}
@@ -254,12 +253,14 @@ export default function MainContent() {
                                                         <CircleCheck className="w-3 mr-3" />
                                                         <span className="text-xs font-bold"> Mark as completed </span>
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem className="hover:bg-slate-200">
-                                                        <Star className="w-3 mr-3" />
+                                                    <DropdownMenuItem
+                                                        className="hover:bg-slate-200 hover:cursor-pointer"
+                                                        onClick={() => detailCard(i)}
+                                                    >
+                                                        <Eye className="w-3 mr-3" />
                                                         <span
                                                             className="text-xs font-bold hover:cursor-pointer"
-                                                            onClick={() => handleImportance(x.id)}
-                                                        > Mark as important </span>
+                                                        > Expand </span>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem className="hover:bg-red-300 rounded-lg">
                                                         <Trash className="w-3 mr-3" color="red" />
@@ -294,11 +295,12 @@ export default function MainContent() {
                 />
                 <Details
                     isOpen={detail}
+                    onClose={detailCard}
                     tasks={tasks}
                     index={index}
-                    onClose={detailCard}
                 />
             </div>
+            {console.log(open, detail)}
         </>
     )
 }

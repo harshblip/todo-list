@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useState, useEffect } from "react"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { Button } from "@/components/ui/button"
 import {
@@ -45,8 +46,34 @@ export function Details({ isOpen, onClose, tasks, index }) {
 
 function ProfileForm({ tasks, index, className, onClose }) {
 
+    const [form, setForm] = useState({
+        id: index,
+        title: '',
+        description: '',
+        category: '',
+        status: 'pending',
+        tags: [],
+    });
+
+    useEffect(() => {
+        if (tasks && tasks[index]) {
+            setForm({
+                id: index,
+                title: tasks[index].title || '',
+                description: tasks[index].description || '',
+                category: tasks[index].category || '',
+                status: 'pending',
+                tags: tasks[index].tags || [],
+            });
+        }
+    }, [tasks, index]);
+
+    function closeModal(e) {
+        onClose();
+    }
+
     return (
-        <div className={`grid items-start gap-4 p-1 ${className}`}>
+        <form className={`grid items-start gap-4 p-1 ${className}`}>
             <div className="grid gap-2">
                 <Label htmlFor="title" className={`mt-2 text-md`}>Title</Label>
                 <Input
@@ -54,37 +81,38 @@ function ProfileForm({ tasks, index, className, onClose }) {
                     id="title"
                     name="title"
                     className="border-gray-200"
-                    value={tasks[index].title}
+                    value={form.title}
                     disabled
                 />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="description" >Description</Label>
+                <Label htmlFor="description" className={`mt-2 text-md`} >Description</Label>
                 <Input
                     type="text"
                     id="title"
                     name="title"
                     className="border-gray-200"
-                    value={tasks[index].description}
+                    value={form.description}
                     disabled
                 />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="tags">Tags</Label>
+                <Label htmlFor="tags" className={`mt-2 text-md`}>Tags</Label>
                 <Input
                     type="text"
                     id="title"
                     name="title"
                     className="border-gray-200"
-                    value={tasks[index].tags}
+                    value={form.tags}
                     disabled
                 />
             </div>
             <Button
                 variant="outline"
                 onClick={onClose}
-            >Cancel</Button>
-        </div>
+                type="button"
+            >ok</Button>
+        </form>
     );
 }
 
