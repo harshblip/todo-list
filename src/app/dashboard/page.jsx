@@ -1,3 +1,4 @@
+import '../globals.css'
 import Navbar from "@/app/components/Navbar/layout"
 import MainContent from "@/app/components/MainContent/MainContent"
 
