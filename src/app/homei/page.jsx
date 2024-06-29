@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Authbtn from "../components/authbtn";
+import Authbtn from "../../../components/authbtn";
 
 export default function Home() {
     return (
