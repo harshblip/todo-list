@@ -1,10 +1,10 @@
+'use client'
 
 import * as React from "react"
 import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import Button from "../src/app/Button"
 
 export function AddTask({ isOpen, onClose, tasks, setTasks }) {
     const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -159,19 +160,16 @@ function ProfileForm({ className, setTasks, tasks, onClose }) {
                 />
             </div>
             <Button
-                className="bg-black text-white"
-                onClick={closeModal}
-                type="submit"
-            >
-                Save changes
-            </Button>
+                click={closeModal}
+                taip={"submit"}
+                text={"submit"}
+                className={"bg-black text-white"}
+            />
             <Button
-                variant="outline"
-                onClick={closeModal}
-                type="button"
-            >
-                Cancel
-            </Button>
+                click={closeModal}
+                taip={"button"}
+                text={"cancel"}
+            />
         </form>
     )
 }

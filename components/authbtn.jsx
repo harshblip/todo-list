@@ -1,10 +1,12 @@
+'use client'
+
 import { ArrowBigDown, RefreshCcw } from "lucide-react";
-import { signIn, signOut } from "next-auth/react";
-import { getServerSession } from "next-auth";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 const authbtn = () => {
-    const { data: session, status } = getServerSession();
+    const sessionok = useSession();
+    const { data: session, status } = sessionok;
     if (status === "loading") {
         return (
             <div className="auth-btn">

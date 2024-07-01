@@ -8,10 +8,8 @@ export const metadata = {
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
     return (
-        <div>
-            <SessionProvider session={session}>
-                <Component {...pageProps} />
-            </SessionProvider>
-        </div>
+        <SessionProvider session={session}>
+            <Component {...pageProps} />
+        </SessionProvider>
     );
 }

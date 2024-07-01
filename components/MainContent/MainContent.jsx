@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronRight, CircleCheck, Edit2, Trash, Star, Eye } from "lucide-react";
 import { Ubuntu } from "next/font/google"

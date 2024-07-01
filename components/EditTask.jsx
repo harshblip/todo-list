@@ -1,9 +1,8 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 
-import { cn } from "@/lib/utils"
+import Button from "../src/app/Button"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -139,15 +138,16 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
                 <Input id="tags" name="tags" onChange={dataChange} value={form.tags} />
             </div>
             <Button
-                className="bg-black text-white"
-                onClick={closeModal}
-                type="submit"
-            >Save changes</Button>
+                className={"bg-black text-white"}
+                click={closeModal}
+                taip={"submit"}
+                text={"save changes"}
+            />
             <Button
-                variant="outline"
-                onClick={closeModal}
-                type="button"
-            >Cancel</Button>
+                click={closeModal}
+                taip={"button"}
+                text={"cancel"}
+            />
         </form>
     );
 }

@@ -1,7 +1,7 @@
+"use client"
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/drawer"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import Button from "../src/app/Button"
 
 export function Details({ isOpen, onClose, tasks, index }) {
     const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -107,11 +108,11 @@ function ProfileForm({ tasks, index, className, onClose }) {
                     disabled
                 />
             </div>
-            <Button
-                variant="outline"
-                onClick={onClose}
-                type="button"
-            >ok</Button>
+            <Button 
+                click={closeModal}
+                taip={"button"}
+                text={"ok"}
+            />
         </form>
     );
 }
