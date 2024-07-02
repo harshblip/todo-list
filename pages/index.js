@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Home from "@/app/homei/page";
 
 export async function getServerSideProps(context) {
@@ -14,6 +14,17 @@ export const metadata = {
 }
 
 export default function index() {
+
+    const { data: session, status } = useSession();
+
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
+    if (status === "unauthenticated") {
+        return <div>Not authenticated</div>;
+    }
+
     return (
         <>
             <Home />

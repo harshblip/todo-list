@@ -4,9 +4,9 @@ import { ArrowBigDown, RefreshCcw } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-const authbtn = () => {
-    const sessionok = useSession();
-    const { data: session, status } = sessionok;
+
+export default function authbtn() {
+    const { data, status } = useSession();
     if (status === "loading") {
         return (
             <div className="auth-btn">
@@ -47,4 +47,3 @@ const authbtn = () => {
         </div>
     );
 };
-export default authbtn;
