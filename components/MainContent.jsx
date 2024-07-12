@@ -2,17 +2,18 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronRight, CircleCheck, Edit2, Trash, Star, Eye } from "lucide-react";
 import { Ubuntu } from "next/font/google"
-import { useState } from "react";
-import { EditTask } from "../EditTask";
-import { AddTask } from "../AddTask";
-import { Details } from "../Details";
+import { useEffect, useState } from "react";
+import { EditTask } from "./EditTask";
+import { AddTask } from "./AddTask";
+import { Details } from "./Details";
+import axios from "axios";
 
 const ubuntu = Ubuntu({
     subsets: ["latin"],
     weight: '400',
 });
 
-export default function MainContent() {
+export default function MainContent({ memail }) {
 
     const [open, setOpen] = useState(false);
     const [addo, setAddo] = useState(false);
@@ -26,6 +27,7 @@ export default function MainContent() {
     }
 
     function toggleAdd() {
+
         setAddo(prevOpen => !prevOpen);
     }
 
@@ -33,6 +35,12 @@ export default function MainContent() {
         setIndex(i);
         setDetail(prevDetail => !prevDetail);
     }
+
+    useEffect(() => {
+        axios.get('/api/note', memail).then(
+            (response) => console.log(response)
+        ).catch(err => console.log(err))
+    }, [])
 
     const [impos, setImpos] = useState([]);
     const [tasks, setTasks] = useState([
@@ -292,6 +300,7 @@ export default function MainContent() {
                     onClose={toggleAdd}
                     tasks={tasks}
                     setTasks={setTasks}
+                    memail={memail}
                 />
                 <Details
                     isOpen={detail}
@@ -300,7 +309,6 @@ export default function MainContent() {
                     index={index}
                 />
             </div>
-            {console.log(open, detail)}
         </>
     )
 }

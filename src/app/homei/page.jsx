@@ -1,14 +1,18 @@
-import Link from "next/link";
-import Authbtn from "../../../components/authbtn";
+import Dashboard from "../../../pages/Dashboard";
+import Door from "../door";
+import { useState } from "react";
 
-export default function Home() {
+export default function Home({ session, status }) {
+    const [show, setShow] = useState(false);
     return (
-        <>
-            home
-            <Link href="/dashboard">
-                <button className="ml-4">Go to dashboard</button>
-            </Link>
-            <Authbtn />
-        </>
+        !show ? <Door
+            session={session}
+            status={status}
+            show={show}
+            setShow={setShow}
+        /> : <Dashboard
+            session={session}
+            status={status}
+        />
     )
 }

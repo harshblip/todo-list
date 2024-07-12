@@ -97,8 +97,6 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
         }));
     }
 
-    console.log(index)
-
     function handleSubmit(e) {
         e.preventDefault();
         setTasks(prevTasks => {

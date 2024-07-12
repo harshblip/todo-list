@@ -23,9 +23,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import Button from "../src/app/Button"
+import axios from "axios"
 
-export function AddTask({ isOpen, onClose, tasks, setTasks }) {
+export function AddTask({ isOpen, onClose, tasks, setTasks, memail }) {
     const isDesktop = useMediaQuery("(min-width: 768px)")
+    // console.log("addtask", memail)
 
     if (isDesktop) {
         return (
@@ -41,6 +43,7 @@ export function AddTask({ isOpen, onClose, tasks, setTasks }) {
                         onClose={onClose}
                         tasks={tasks}
                         setTasks={setTasks}
+                        memail={memail}
                     />
                 </DialogContent>
             </Dialog>
@@ -61,20 +64,24 @@ export function AddTask({ isOpen, onClose, tasks, setTasks }) {
                     onClose={onClose}
                     tasks={tasks}
                     setTasks={setTasks}
+                    memail={memail}
                 />
             </DrawerContent>
         </Drawer>
     )
 }
 
-function ProfileForm({ className, setTasks, tasks, onClose }) {
+function ProfileForm({ className, setTasks, tasks, onClose, memail }) {
+    const date = new Date();
+    const istDate = new Date(date).toLocaleString(undefined, { timeZone: "Asia/Kolkata" });
     const [form, setForm] = useState({
-        id: tasks.length + 1,
         title: '',
         description: '',
         category: 'important',
         status: 'pending',
         tags: [],
+        createdOn: istDate,
+        updatedOn: istDate
     })
 
     function dataPush(e) {
@@ -100,6 +107,9 @@ function ProfileForm({ className, setTasks, tasks, onClose }) {
         e.preventDefault();
         // console.log(form)    
         if (form.title != '') {
+            axios.post('/api/note', { form, memail }).then((reponse) => {
+                console.log(reponse);
+            }).catch(err => console.log(err));
             setTasks([...tasks, form])
         } else {
             console.error("can't add a task without a title")
