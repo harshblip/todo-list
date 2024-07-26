@@ -1,3 +1,5 @@
+"use client"
+
 import Dashboard from "../../../pages/Dashboard";
 import Door from "../door";
 import { useState } from "react";

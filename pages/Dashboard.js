@@ -8,9 +8,11 @@ export default function Dashboard({ session, status }) {
             <div className="flex flex-col w-[32rem]">
                 <div className="sm:w-[32rem] container min-w-0 p-4">
                     <Navbar />
-                    <MainContent
-                        memail={session.user.email}
-                    />
+                    {
+                        session ? <MainContent
+                            memail={session.user.email}
+                        /> : 'user session not found'
+                    }
                 </div>
             </div>
         </div>

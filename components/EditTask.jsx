@@ -67,7 +67,7 @@ export function EditTask({ isOpen, onClose, tasks, setTasks, index }) {
     )
 }
 
-function ProfileForm({ tasks, index, setTasks, className, onClose }) {
+function ProfileForm({ tasks, index, className, onClose }) {
     const [form, setForm] = useState({
         id: index,
         title: '',
