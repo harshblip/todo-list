@@ -75,10 +75,19 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
         category: '',
         status: 'pending',
         tags: [],
-        dbId: ''
+        dbId: '',
+        updatedOn: ''
     });
     const [count, setCount] = useState(0);
-    const [formO, setFormO] = useState({});
+    const [formO, setFormO] = useState({
+        id: index,
+        title: '',
+        description: '',
+        category: '',
+        status: 'pending',
+        tags: [],
+        dbId: ''
+    });
 
     // console.log(tasks.task[index].id)
 
@@ -91,14 +100,20 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
                 category: tasks.task[index].category || '',
                 status: tasks.task[index].status || '',
                 tags: tasks.task[index].tags || [],
-                dbId: tasks.task[index].id || ''
+                dbId: tasks.task[index].id || '',
+                updatedOn: tasks.task[index].createdOn || ''
             });
-            
+            setFormO({
+                title: tasks.task[index].title || '',
+                description: tasks.task[index].description || '',
+                category: tasks.task[index].category || '',
+                status: tasks.task[index].status || '',
+                tags: tasks.task[index].tags || [],
+            });
         }
-        setFormO(form);
     }, [tasks, index]);
-    
-    
+
+
     function dataChange(e) {
         const { name, value } = e.target;
         setForm(prevForm => ({
@@ -106,14 +121,20 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
             [name]: value,
         }));
     }
-    
+
     function handleSubmit(e) {
         e.preventDefault();
-        
-        // if(form.title.trim() !== formO.title)
-        console.log(formO.title)
-        
-        
+        const date = new Date();
+        const istDate = new Date(date).toLocaleString(undefined, { timeZone: "Asia/Kolkata" });
+        if (form.title.trim() !== formO.title.trim()
+            || form.description.trim() !== formO.description.trim()
+            || form.tags.trim() !== formO.tags.trim()
+            || form.category !== formO.category) {
+            form.updatedOn = istDate;
+        }
+
+        // console.log(form.updatedOn)
+
         axios.put('/api/note', {
             form
         })

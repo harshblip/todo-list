@@ -54,7 +54,12 @@ export async function updateNote(body) {
             id: dbId
         },
         data: {
-
+            title: title,
+            description: description,
+            category: category,
+            status: status,
+            tags: tags,
+            updatedOn: updatedOn
         }
     })
 }
