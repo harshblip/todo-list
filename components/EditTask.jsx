@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import axios from "axios"
 
 export function EditTask({ isOpen, onClose, tasks, setTasks, index }) {
     const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -74,21 +75,30 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
         category: '',
         status: 'pending',
         tags: [],
+        dbId: ''
     });
+    const [count, setCount] = useState(0);
+    const [formO, setFormO] = useState({});
+
+    // console.log(tasks.task[index].id)
 
     useEffect(() => {
-        if (tasks && tasks[index]) {
+        if (tasks && tasks.task[index]) {
             setForm({
                 id: index,
-                title: tasks[index].title || '',
-                description: tasks[index].description || '',
-                category: tasks[index].category || '',
-                status: 'pending',
-                tags: tasks[index].tags || [],
+                title: tasks.task[index].title || '',
+                description: tasks.task[index].description || '',
+                category: tasks.task[index].category || '',
+                status: tasks.task[index].status || '',
+                tags: tasks.task[index].tags || [],
+                dbId: tasks.task[index].id || ''
             });
+            
         }
+        setFormO(form);
     }, [tasks, index]);
-
+    
+    
     function dataChange(e) {
         const { name, value } = e.target;
         setForm(prevForm => ({
@@ -96,14 +106,21 @@ function ProfileForm({ tasks, index, setTasks, className, onClose }) {
             [name]: value,
         }));
     }
-
+    
     function handleSubmit(e) {
         e.preventDefault();
-        setTasks(prevTasks => {
-            const newArr = [...prevTasks];
-            newArr[form.id] = { ...newArr[form.id], ...form };
-            return newArr;
-        });
+        
+        // if(form.title.trim() !== formO.title)
+        console.log(formO.title)
+        
+        
+        axios.put('/api/note', {
+            form
+        })
+            .then(
+                (response) => console.log(response))
+            .catch((err) => console.log(err))
+
     }
 
     function closeModal() {

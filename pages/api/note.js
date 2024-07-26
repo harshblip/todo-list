@@ -16,9 +16,9 @@ export default async function handler(req, res) {
         }
     }
     if (req.method === 'GET') {
-        const { body } = req;
+        const { memail } = req.query;
         try {
-            const task = await getNote(body);
+            const task = await getNote(memail);
             res.status(200).json({ task });
         } catch (err) {
             console.log('error getting the note ', err);

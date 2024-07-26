@@ -79,9 +79,9 @@ function ProfileForm({ className, setTasks, tasks, onClose, memail }) {
         description: '',
         category: 'important',
         status: 'pending',
-        tags: [],
+        tags: '',
         createdOn: istDate,
-        updatedOn: istDate
+        updatedOn: istDate,
     })
 
     function dataPush(e) {
@@ -110,7 +110,7 @@ function ProfileForm({ className, setTasks, tasks, onClose, memail }) {
             axios.post('/api/note', { form, memail }).then((reponse) => {
                 console.log(reponse);
             }).catch(err => console.log(err));
-            setTasks([...tasks, form])
+            // setTasks([...tasks, form])
         } else {
             console.error("can't add a task without a title")
         }
