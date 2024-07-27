@@ -47,7 +47,7 @@ export default function MainContent({ memail }) {
                 } else {
                     console.log("problem in /api/note")
                 }
-                console.log(response)
+                // console.log(response)
             }
         ).catch(err => console.log(err))
     }, [])
@@ -61,7 +61,7 @@ export default function MainContent({ memail }) {
         tags: [],
     };
 
-    console.log(tasks)
+    // console.log(tasks)
     const klm = tasks.task || form;
     const gen = klm.length >= 2 ? klm.filter(x => x.category === 'general') : klm;
     const abc = tasks.task || form;

@@ -1,6 +1,7 @@
 import '../src/app/globals.css'
 import Navbar from "../components/Navbar/layout"
 import MainContent from "../components/MainContent"
+import Authbtn from '../components/authbtn'
 
 export default function Dashboard({ session, status }) {
     return (

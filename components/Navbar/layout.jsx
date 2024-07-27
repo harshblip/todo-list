@@ -1,4 +1,6 @@
-import { BookCheck } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { BookCheck, ArrowBigRightDash } from "lucide-react"
+import { signIn, signOut } from "next-auth/react"
 
 export default function Navbar() {
     return (
@@ -12,6 +14,14 @@ export default function Navbar() {
                 <p className="font-semibold text-2xl">
                     Todo App
                 </p>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="w-6 h-6 mt-2"
+                    onClick={() => signOut()}
+                >
+                    <ArrowBigRightDash className="h-4 w-4" />
+                </Button>
             </div>
         </>
     )
