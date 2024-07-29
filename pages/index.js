@@ -1,6 +1,6 @@
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Home from "@/app/homei/page";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 
 export const metadata = {
     title: 'home.js',
@@ -8,7 +8,7 @@ export const metadata = {
 }
 
 export async function getServerSideProps(context) {
-    const session = await getServerSession(context);
+    const session = await getServerSession(context.req, context.res);
     return {
         props: { session },
     };
