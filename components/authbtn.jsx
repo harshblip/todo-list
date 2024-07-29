@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowBigDown, RefreshCcw } from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
