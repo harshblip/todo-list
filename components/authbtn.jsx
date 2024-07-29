@@ -52,7 +52,9 @@ export default function authbtn({ session, status, show, setShow }) {
                         </div></> : <> <div className="auth-btn">
                             <button onClick={(e) => {
                                 e.preventDefault();
-                                signIn()
+                                signIn('google', {
+                                    callbackUrl: process.env.NEXTAUTH_URL
+                                })
                             }
                             }>Login</button>
                         </div> </>
