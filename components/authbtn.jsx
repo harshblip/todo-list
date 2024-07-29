@@ -50,14 +50,18 @@ export default function authbtn({ session, status, show, setShow }) {
                                 </li>
                             </ul>
                         </div></> : <> <div className="auth-btn">
-                            <button onClick={() => signIn()}>Login</button>
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                signIn()
+                            }
+                            }>Login</button>
                         </div> </>
                 }
             </div> :
 
             <div>
                 <Dashboard
-                    
+
                 />
             </div>
     );
